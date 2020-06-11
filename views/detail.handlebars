@@ -1,3 +1,4 @@
+<script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
 <div class="as-search-wrapper" role="main">
     <div class="as-navtuck-wrapper">
         <div class="as-l-fullwidth  as-navtuck" data-events="event52">
@@ -91,9 +92,9 @@
                                 </h3>
                             </div>
                             {{!-- <button type="submit" class="mercadopago-button" formmethod="post">Pagar la compra</button> --}}
-                            <form action="/procesar-pago" method="POST">
+                            <form method="GET">
                                 <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                                    data-button-label="Pagar la compra" data-preference-id={{ init_point }}>
+                                    data-button-label="Pagar la compra" data-preference-id={{ id }}>
                                     </script>
                             </form>
                         </div>

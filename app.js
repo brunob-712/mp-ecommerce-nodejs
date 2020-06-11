@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const mercadopago = require('mercadopago');
 
@@ -10,7 +11,7 @@ const mercadoPagoPreference = (baseUrl, price, title, picture_url) => {
         });
 
         let preference = {
-            notification_url: `${baseUrl}/notifications`,
+            notification_url: "http://localhost:3000/notifications",
             payer: {
                 phone: { area_code: '11', number: 22223333 },
                 address: { zip_code: '1111', street_name: 'False', street_number: 123 },
@@ -19,11 +20,6 @@ const mercadoPagoPreference = (baseUrl, price, title, picture_url) => {
                 name: 'Lalo',
                 surname: 'Landa'
             },
-            // redirect_urls: {
-            //     failure: `${baseUrl}/failure`,
-            //     pending: `${baseUrl}/pending`,
-            //     success: `${baseUrl}/success`
-            // },
             back_urls: {
                 success: `${baseUrl}/success`,
                 pending: `${baseUrl}/pending`,
@@ -59,7 +55,6 @@ const mercadoPagoPreference = (baseUrl, price, title, picture_url) => {
         mercadopago.preferences.create(preference)
             .then((response) => {
                 resolve(response.body.id);
-                console.log(response.body);
             }).catch(function (error) {
                 console.log(error);
                 reject(error);
@@ -68,6 +63,7 @@ const mercadoPagoPreference = (baseUrl, price, title, picture_url) => {
 }
 
 var app = express();
+app.use(bodyParser.json());
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -95,26 +91,9 @@ app.get('/failure', (req, res) => {
     res.render('failure', req.query);
 });
 
-app.post("/notifications", (req, res) => {
-    console.log(req.body); // Call your action on the request here
-    res.status(200).end(); // Responding is important
-    // var http = require('http');
-    // var server = http.createServer(function (request, response) {
-
-    //     response.writeHead(200, { "Content-Type": "text\plain" });
-    //     if (request.method == "GET") {
-    //         response.end("received GET request.")
-    //     }
-    //     else if (request.method == "POST") {
-    //         response.end("received POST request.");
-    //     }
-    //     else {
-    //         response.end("Undefined request .");
-    //     }
-    // });
-
-    // server.listen(8000);
-    // console.log("Server running on port 8000");
+app.post("/notifications", (req, res, next) => {
+    console.log(req.body)
+    res.status(200).send("OK").end();
 });
 
 

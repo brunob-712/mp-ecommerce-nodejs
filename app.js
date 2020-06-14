@@ -10,14 +10,14 @@ const mercadoPagoPreference = (req, baseUrl, price, title, picture_url) => {
             integrator_id: "dev_24c65fb163bf11ea96500242ac130004"
         });
         console.log("picture_url: ", picture_url);
-        const editedPictureUrl = req.picture_url ? encodeURIComponent(picture_url.replace("./", "https://brunob-712-mp-commerce-nodejs.herokuapp.com/")) : "";
+        const editedPictureUrl = req.query.image ? encodeURIComponent(picture_url.replace("./", "https://brunob-712-mp-commerce-nodejs.herokuapp.com/")) : "";
         const back_params = `img=${encodeURIComponent(picture_url)}&title=${title}&price=${price}&unit=1`;
         console.log("back_params:", back_params);
         console.log(`req.query:
         ${JSON.stringify(req.query)}
         `)
         let preference = {
-            // notification_url: `${baseUrl}/notifications`,
+            notification_url: "https://brunob-712-mp-commerce-nodejs.herokuapp.com/notifications",
             payer: {
                 phone: { area_code: '11', number: 22223333 },
                 address: { zip_code: '1111', street_name: 'False', street_number: 123 },
@@ -85,12 +85,14 @@ app.get('/', function (req, res) {
 
 app.get('/detail', function (req, res) {
     const baseUrl = req.protocol + "://" + req.headers.host;
-    if (req.query) {
+    if (req.query.img) {
         mercadoPagoPreference(req, baseUrl, parseInt(req.query.price), req.query.title, req.query.img)
             .then((id) => {
                 req.query.id = id;
                 res.render('detail', req.query);
             })
+    } else {
+        res.render('detail', req.query);
     }
 });
 

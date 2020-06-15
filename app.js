@@ -31,7 +31,7 @@ const mercadoPagoPreference = (req, baseUrl, price, title, picture_url) => {
                 pending: `https://brunob-712-mp-commerce-nodejs.herokuapp.com/pending/${back_params}`,
                 failure: `https://brunob-712-mp-commerce-nodejs.herokuapp.com/failure/${back_params}`
             },
-            // "auto_return": "approved",
+            "auto_return": "approved",
             items: [
                 {
                     id: 1234,

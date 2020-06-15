@@ -18,6 +18,7 @@ const mercadoPagoPreference = (req, baseUrl, price, title, picture_url) => {
         `)
         let preference = {
             notification_url: "https://brunob-712-mp-commerce-nodejs.herokuapp.com/notifications",
+            external_reference: "brunob712@hotmail.com",
             payer: {
                 phone: { area_code: '11', number: 22223333 },
                 address: { zip_code: '1111', street_name: 'False', street_number: 123 },
@@ -40,8 +41,7 @@ const mercadoPagoPreference = (req, baseUrl, price, title, picture_url) => {
                     picture_url: editedPictureUrl,
                     quantity: 1,
                     unit_price: price,
-                    currency_id: "ARS",
-                    external_reference: "brunob712@hotmail.com",
+                    currency_id: "ARS"
                 }
             ],
             payment_methods: {
